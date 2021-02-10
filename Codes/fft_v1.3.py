@@ -145,10 +145,10 @@ def main():
     index2 = np.where(yf == q[2])
     index3 = np.where(yf == q[4])
     index4 = np.where(yf == q[6])
-    print("Your 1st top freq is:", index1)
-    print("Your 2nd top freq is:", index2)
-    print("Your 3rd top freq is:", index3)
-    print("Your 4th top freq is", index4)
+    print("Your 1st top freq is:", index1[0][0])
+    print("Your 2nd top freq is:", index2[0][0])
+    print("Your 3rd top freq is:", index3[0][0])
+    print("Your 4th top freq is:", index4[0][0])
    
     g[k] = yf[0]
 
