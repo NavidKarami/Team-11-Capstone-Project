@@ -5,41 +5,44 @@ from array import *
 import string
 import numpy as np
 
-size = 5       #number of elements/users in array.
+#number of elements/users in array.
+size = 10   
 
 class user:
     name = []
     pin = []
     i = 0
 
+#THIS WOULD BE THE "DATABASE"
+users = ["uzi", "navid", "danny", "tamarr"]
+pins = [2218, 1234, 4321, 0000]
+
+
 def NewUser():
-
-    print("New Pin")
-
+#not sure what this code below does...(following two lines)
     for i in range(size):
         user.pin.append("")
 
+#following code asks user to create a 4 digit pin
     while True:
-        user.pin[user.i] = input("Choose your 4 digit pin: ")
-        
-        try:
-            user.pin[user.i] = int(user.pin[user.i])
-            print("You entered:", user.pin[user.i])
-            NewUser_name()
-            break
-
-        except ValueError:
-            print("You entered: ", user.pin[user.i])
-            print("Integers allowed only. Try again.\n")
+        user.pin[user.i] = input("\nSet your 4 digit pin: ")
+        x = str(user.pin[user.i])
+#print("\nYou entered:", x)
+#checks if the pin is 4 integers long, if it is then you create a username  
+        if (len(x) == 4) and (x.isdigit()):
+                NewUser_name()
+                break
+#if it isn't you must keep trying until you meet the requirements
+        else:
+                print("Error. Try again.")
 
 def NewUser_name():
-    print("New UserName.")
-
+#again, not sure what this does...    
     for j in range(size):
         user.name.append("")
 
     while True:
-        user.name[user.i] = input("Choose a username; it must contains letters and numbers only: ")
+        user.name[user.i] = input("Choose a username. Must contains letters and numbers only: ")
         try:
             if (user.name[user.i].isdigit()):
                 raise ValueError("The user name must contain letters and numbers.")
@@ -56,17 +59,48 @@ def NewUser_name():
    
 
 def currentUser():
-    print("Welcome Current User.\n") 
+#asks user to enter their name and pin
+    print("\nWelcome Back!") 
     currentName = input("Enter your username: ")
-    print("You entered: ", currentName)
-    currentPin = int(input("Enter your PIN: "))
-    print("You entered: ", currentPin)
     k = 0
-    while (k < user.i):
-        if (currentName == user.name[k] and currentPin == user.pin[k]):
-            print("Match")
-        k += 1
+    j = 5
+    while (k < len(users)):
+        if (currentName != users[k]):
+            k += 1
+            if (k == len(users)):
+                print("Error. Unknown user.\n")
+                time.sleep(j)
+                currentName = input("Enter your username: ")
+                k = 0
+                print("delay j is:", j)
+                j = j*3
+            #print("step\n")
+        else:
+            break
 
+    #if (k == len(users)):
+     #   print("Error. Unknown user.\n")
+        
+            #j = k
+            #currentPin = int(input("Enter your PIN: "))
+            #if (currentPin != pins[j]):
+            #    print("good")
+
+
+
+
+
+
+#check to see if the user input matches with database info
+#this matching needs to be reworked to compare with the "database"
+
+    #testing down BELOW
+    #r = len(users)
+    #print("this is r:", r)
+
+    #currentPin != pins[k]
+
+#not sure what this code below does, isn't called anywhere in the code
 def userPrint():
     j = 0
     while (j < user.i):
@@ -75,9 +109,13 @@ def userPrint():
         
 def main():
 
+    print("\nWELCOME!\n")
+    #this is the main menu for our program. there are various options to choose from
+    #any number that isn't a valid option will get an error message. Program runs till
+    #the user terminates it
     while True:
-        print("1 for New user\n2 for current user\n3 for listing user info\n4 for terminating")
-        select = input("What would you like to do: ")
+        print("[1]: New user\n[2]: Current user\n[3]: View user info\n[4]: Exit")
+        select = input("Please select from the options above: ")
         if (select == '1'):
             NewUser()
         elif (select == '2'):
@@ -87,7 +125,7 @@ def main():
         elif (select == '4'):
             exit()
         else:
-            print("Wrong input")
+            print("\nError. Invalid input. Try again.")
 
 if __name__ == '__main__':
     main()
