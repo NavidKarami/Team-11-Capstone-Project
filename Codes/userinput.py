@@ -8,14 +8,14 @@ import numpy as np
 #number of elements/users in array.
 size = 10   
 
+#THIS WOULD BE THE "DATABASE"
+users = ["uzi", "navid", "danny", "tamarr"]
+pins = [2218, 1234, 4321, 0000]
+
 class user:
     name = []
     pin = []
     i = 0
-
-#THIS WOULD BE THE "DATABASE"
-users = ["uzi", "navid", "danny", "tamarr"]
-pins = [2218, 1234, 4321, 0000]
 
 
 def NewUser():
@@ -35,6 +35,7 @@ def NewUser():
 #if it isn't you must keep trying until you meet the requirements
         else:
                 print("Error. Try again.")
+
 
 def NewUser_name():
 #again, not sure what this does...    
@@ -58,47 +59,67 @@ def NewUser_name():
             print("characters and numbers allowed only. Try again.\n")
    
 
+
+
+
+
+
+
+
 def currentUser():
 #asks user to enter their name and pin
     print("\nWelcome Back!") 
     currentName = input("Enter your username: ")
     k = 0
     j = 5
+#check to see if the input is on the registered users list
+#if they are, proceed to pin code. if not, try again 3 times before being kicked from module
     while (k < len(users)):
         if (currentName != users[k]):
             k += 1
             if (k == len(users)):
-                print("Error. Unknown user.\n")
+                print("Error. Unknown user. Wait", j, "seconds before attempting again.")
                 time.sleep(j)
                 currentName = input("Enter your username: ")
                 k = 0
-                print("delay j is:", j)
-                j = j*3
-            #print("step\n")
+                j = j*2
+                if (j > 30):
+                    print("Too many failed attempts.")
+                    exit()
         else:
             break
 
-    #if (k == len(users)):
-     #   print("Error. Unknown user.\n")
-        
-            #j = k
-            #currentPin = int(input("Enter your PIN: "))
-            #if (currentPin != pins[j]):
-            #    print("good")
+#user will have to enter the pin that matches the username they just entered
+#if the pin is not integers the program will bug out so might need to fix this
+#if the user enter the correct pin for their username, proceed to voice analysis
+#if the user enters wrong pin, the program asks them to try again 3 more times
+#with a delay in between each retry. After attempts > 4, program quits
+    i = k
+    j = 5
+    #print("k and i are:", k, i)  
+    currentPin = int(input("Enter your 4 digit PIN: "))
+    while (currentPin != pins[i]):
+        print("Error, pin is incorrect. Wait", j, "seconds before next attempt.")
+        time.sleep(j)
+        currentPin = int(input("Enter your PIN: "))
+        j = j*2
+        if (j > 30):
+            print("Too many failed attempts.")
+            exit()
+    else:
+        print("Success. Proceeding to voice analysis...\n")
+        #NOW YOU WOULD GO TO VOICE ANALYSIS STUFF
 
 
 
 
 
 
-#check to see if the user input matches with database info
-#this matching needs to be reworked to compare with the "database"
 
-    #testing down BELOW
-    #r = len(users)
-    #print("this is r:", r)
 
-    #currentPin != pins[k]
+
+
+
 
 #not sure what this code below does, isn't called anywhere in the code
 def userPrint():
