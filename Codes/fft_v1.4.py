@@ -22,12 +22,13 @@ def peak_finder(peaks, fft, length):
     h = []
     q = []   
     for k in range (0, length):
-        q[k] = q.append(0)
-        h[k] = h.append(0)
+        q[k] = q.append(0)  # Add bunch of 0s
+        h[k] = h.append(0)  # Add bunch of 0s. This is init array
+
 #find the magnitude of the peaks
-    for i in range (0, len(peaks)):
+    for i in range (0, len(peaks)): #loop through peaks and find the highest
         q[i] = fft[peaks[i]]
-        h[i] = q[i]
+        h[i] = q[i]                  
 #sort the magnitudes 
     q.sort(reverse = True)
     a = q[0] #Mag of the 1st highest peak
@@ -35,7 +36,7 @@ def peak_finder(peaks, fft, length):
 
 def sound_fft(sound, rate):
 
-    fs_rate, signal = wavfile.read("dn2.wav")
+    fs_rate, signal = wavfile.read("dn2.wav")   # do not worry about this. 
 
     n = len(sound)  #How long is the audio file
     T = 1/rate      #Sampling interval in time
