@@ -1,4 +1,4 @@
-import speech_recognition as sr
+import speech_recognition as sr #library that allows to access system's default microphone and use for input. install with pip install SpeechRecognition
 import os 
 import sys
 import math
