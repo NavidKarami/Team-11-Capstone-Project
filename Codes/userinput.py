@@ -9,13 +9,15 @@ import numpy as np
 #fix the pins, allow 000x because it doesn't right now
 
 class user:
+    #There is a one-to-one relationship between the name and pin. name_index = pin_index for each user
     name = ["uzi", "navid", "danny", "tamarr"]
     pin = [2218, 1000, 9999, 1234]
-    i = len(name)
+    i = len(name) 
+    len_name = len(name)  #Len of the name array
+    count = 0 #keeps track of user attempts entering pin
     
 #sets the amount of registered users for database
 size = user.i + 3
-
 
 def NewUser():
 #this append might be wrong im not sure
@@ -55,77 +57,44 @@ def NewUser_name():
 #to increment the array so we don't overwrite any users
     user.i += 1
 
-
+#We do not need this at this time. The program only checks for the pin. No username comparison needed for current users
+"""
 def currentUser():
-#asks user to enter their name and pin
-    print("\nWelcome Back!")
-    username = input("Enter your username: ")
+    print("Welcome Current User.\n") 
+    temp_name = input("Enter your username: ")
     k = 0
-#check to see if the entered username is on the registered users list
-#if they are, proceed to pin code. if not, keep trying until a valid username is entered
-    while (k < len(user.name)):
-        if (username != user.name[k]):
-            k += 1
-            if (k == len(user.name)):
-                print("Error. Unknown user. Please enter valid username.")
-                username = input("Enter your username: ")
-                k = 0   #to reset the array so we start at the 1st element
-        else:
-            break
+    #loop until you find the name
+    for k in range(0, user.len_name):
+        if(temp_name == user.name[k]):
+            print("Welcome: ", temp_name)
+            index = k
+            name = temp_name
+            current_user_pin(name, index) #go to check the current user pin
+    #didn't find the name. ask the user re-enter name
+    print("Invalid user name. Try again.")
+    currentUser()
+"""
 
-#user will have to enter pin that matches the username they just entered
+#def current_user_pin(name, index):
+def current_user_pin():
+    temp_pin = input("Enter your pin:")
+    #check the pin to match index. check name. Double checking is good
+    for k in range(0, user.len_name):
+        if(str(temp_pin) == str(user.pin[k])):
+            print("Welcome: ", user.name[k])
+            user.count = 0
+            print("We go to FFT from here.")
+            exit(0)
 
-##########################################################
-        #if the pin is not integers the program will bug out so might need to fix this
+    print("invalid. Try again.")
+    user.count = user.count + 1 #inc and check to see if they atmp three times
+    if(user.count == 3):
+        print("Too many attempts. Locking you out for 10 sec")
+        time.sleep(10) #sleep
+        main()
+    current_user_pin() #call the pin function again
 
-#if the user enters the correct pin for their username, proceed to voice analysis
-#if the user enters wrong pin, the program asks them to try again 3 more times
-#if failed attempts > 3, delay for 10 minutes then reset the attempt count
-    i = k   #to ensure we match the correct user/pin from each array
-    j = 0
-    print("k and i are:", k, i)  
-    userpin = int(input("Enter your 4 digit PIN: "))
-    
-##################################################################
-#fix the below, make sure user enters 4 digits or else they can't proceed
-    #while (len(currentPin) != 4):
-
-
-#########SOMETHING IS WRONG BELOW WTF IDK WHAT
-    x = len(user.name)
-    y = len(user.pin)
-    z = user.i
-    print("various checks\n length of arrays:",x, y, "\ncount of users:", z)
-    print("check:", userpin, user.pin[i])
-    
-    if (userpin == user.pin[i]):
-        print("good\n")
-    
-    
-    while (userpin != user.pin[i]):
-        print("Error, pin is incorrect. Please try again.")
-        userpin = int(input("Enter your PIN: "))
-        j += 1
-        if (j > 2):
-            time.sleep(10)
-            j = 0   #to reset the attempt count
-            print("restart")
-    else:
-        print("Success. Proceeding to voice analysis...\n")
-        #NOW YOU WOULD GO TO VOICE ANALYSIS STUFF
-
-
-
-
-
-
-
-
-
-
-
-
-#not sure what this code below does
+#It prints out the current user info. It is a test module. Not working at this time
 def userPrint():
 #testing################################################
     z = 0
@@ -141,16 +110,12 @@ def userPrint():
     while (k < y):
         print("pins:", user.pin[k])
         k += 1
-######################################################################
+#########################################################
     #j = 0
     #while (j < user.i):
         #print("Your User Name is: %s and your PIN number is: %d" %(user.name[j], user.pin[j]))
         #j += 1
 
-
-
-
-       
 def main():
 
     print("\nWELCOME!\n")
@@ -163,7 +128,7 @@ def main():
         if (select == '1'):
             NewUser()
         elif (select == '2'):
-            currentUser()
+            current_user_pin()
         elif (select == '3'):
             userPrint()
         elif (select == '4'):
