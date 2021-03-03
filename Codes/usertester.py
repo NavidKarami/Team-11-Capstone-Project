@@ -15,7 +15,7 @@ size = 10
 
 class user:
     username = ['tommy', 'tim']
-    pin = [1234, 0000]
+    pin = ['1234', '0000']
 
 
 def NEWUSER():
@@ -91,6 +91,21 @@ def CURRENTUSER():
         else:
             print("The username is not in list")
             print("Please try agian")
+    
+    test = 3
+    while (test > 0):
+        pinnum = (input("Please enter your four-digit pincode\n"))
+        if pinnum in user.pin:
+            print("Pincode Access Authorized")
+            break
+        else:
+            print("Pincode is not recongized")
+            print("Please try again")
+            test -= 1
+            print(test)
+            if(test == 0):
+                time.sleep(5)
+                test = 3
 
 def main():
     # User input
