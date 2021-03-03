@@ -82,6 +82,15 @@ def CURRENTUSER():
 
     print(user.username)
     #check if the currentname is in the user list
+    #Ask the user to type the name
+    while True:
+        name = input("Enter your name\n")
+        if name in user.username:
+            print("Yes, you have" , name)
+            break
+        else:
+            print("The username is not in list")
+            print("Please try agian")
 
 def main():
     # User input
