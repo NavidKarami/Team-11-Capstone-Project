@@ -45,7 +45,7 @@ def NEWUSER():
         length = len(pinnum)
         print(length)
         # Known: won't if you put in and 0000 within the pincode
-        if length !=4 or pinnum in user.pin:
+        if length !=4 or pinnum in user.pin or pinnum.isdigit()==False:
         #if(length != 4):
             print("Invaild pincode, please try again!")
             print("The pincode is being used")
