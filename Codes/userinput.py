@@ -10,67 +10,59 @@ class user:
     name = ["uzi", "navid", "danny", "tamarr"]
     pin = ['2218', '1000', '9999', '1234']
     i = 0 
-    len_name = len(name)  #Len of the name array
+    len_name = len(name)  #length of the name array
     count = 0 #keeps track of user attempts entering pin
     
-#sets the amount of registered users for database
+#sets the amount of new users for database
 size = user.i + 3
 
 def NEWUSER():
-    #New User Module 
-    #Ask the user to type the name
+    #New User Module
+    #user creates their username. Program checks if their username already exists
+    #no duplicate usernames are allowed
     while True:
-        print("Since you are new into our system")
-        name = input("Enter your name\n")
+        print("\nPlease create your username.")
+        name = input("Enter your username: ")
         quit = True 
         for un in user.name:
             if(name == un):
-                print("There is aleaday a username in the list")
-                print("Please input your name again")
+                print("That username already exist. Try a different username.")
                 quit = False
                 break
         if(quit):
             break
 
-    #Store the username in the system 
+    #Stores the username in the system 
     user.name.append(name)
-    print(user.name)
 
-    #Ask the user for a four digit pin code 
-    #if the four-digit wasn't entered properly, Ask the user agian 
+    #Ask the user to create their four digit pin code 
+    #if something other than 4 numbers are entered must try again 
     while True:
-        #check the length and numbers only 
-        pinnum = (input("Please enter your four-digit pincode\n"))
-        #print(pinnum)
+        pinnum = (input("Please enter your four-digit pincode: "))
         length = len(pinnum)
-        print(length)
-        # Known: won't if you put in and 0000 within the pincode
-        if length !=4 or pinnum in user.pin or pinnum.isdigit()==False:
-        #if(length != 4):
+        if length !=4:      #checks length
             print("Invaild pincode, please try again!")
-            print("The pincode is being used")
+        elif pinnum in user.pin:        #checks if pin is already taken
+            print("The pincode is already being used. Try again.")
+        elif pinnum.isdigit()==False:       #checks if they entered something other than numbers for their pin
+            print("Only enter numbers. Try again.")
         else:            
            break
 
-    print("This is the pincode: ", pinnum)
-    #print(pinnum)
-    
+    #confirm the pin
     while True:
-        #Check if we have the same pincode 
-        print("It's time to confirm your pincode")
-        pinnum2 = (input("Please enter your four-digit pincode\n"))
-        #print(pinnum2)
+        pinnum2 = (input("Please confirm your pin: "))
         length2 = len(pinnum2)
         #Confirm the four-digit pincode (Compare) 
         if(pinnum != pinnum2):
-            print("The confirm pincode does not matched please try again")
+            print("The pin does not match. Try again.")
         else:
             break 
 
     #Store the pincode in the system
     user.pin.append(pinnum)
-    print(user.pin)
-    
+
+#what is this stuff below? do we need it or can we delete it?#################
 '''
 * To check if an item is in a list, the "in" operator can be used 
 * The in operator is alos used to determine whether or not a string is a substring of another string 
@@ -93,50 +85,46 @@ def currentUser():
     currentUser()
 """
 
-#def current_user_pin(name, index):
+#this code is used to determine the user based on the pin they enter
 def current_user_pin():
     user.len_name = len(user.pin)
-    print("checking:", user.len_name)
-    temp_pin = input("Enter your pin:")
-    #check the pin to match index. check name. Double checking is good
+    temp_pin = input("\nEnter your pin:")
+    #checks the pin to find a match. If there's a match, username associated to
+    #that pin is displayed. Then we proceed to voice analysis
     for k in range(0, user.len_name):
         if(str(temp_pin) == str(user.pin[k])):
             print("Welcome: ", user.name[k])
             user.count = 0
             print("We go to FFT from here.")
-            #exit(0)
-            main() #It
+            #main() would go to fft module not main###########
 
-    print("invalid. Try again.")
+    #if the input doesn't match any of the pins from the pin array...
+    print("Invalid. Try again.")
     user.count = user.count + 1 #inc and check to see if they atmp three times
     if(user.count == 3):
-        print("Too many attempts. Locking you out for 10 sec")
+        print("Too many attempts. Locking you out for 10 sec.")
         time.sleep(10) #sleep
-        main()
+        main() #do we want to go to main or just have them restart pin attempts?##########
     current_user_pin() #call the pin function again
     
-#It prints out the current user info. It is a test module. Not working at this time
+#It prints out the current user info. Not sure what data we want to print
+#but as of rn it prints users and pins
+
 def userPrint():
 #testing################################################
     z = 0
     k = 0
     x = len(user.name)
     y = len(user.pin)
-    print("check lenght of arrays:", x, y)
-
+    print("\nRegistered users: ")
     while (z < x):
-        print("users:", user.name[z])
+        print(user.name[z])
         z += 1
-
+    print("\nPins:")
     while (k < y):
-        print("pins:", user.pin[k])
+        print(user.pin[k])
         k += 1
-#########################################################
-    #j = 0
-    #while (j < user.i):
-        #print("Your User Name is: %s and your PIN number is: %d" %(user.name[j], user.pin[j]))
-        #j += 1
-
+        
 def main():
 
     print("\nWELCOME!\n")
