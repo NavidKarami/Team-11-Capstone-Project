@@ -71,7 +71,7 @@ def view_peaks(peaks1,peaks2):
 
     results.close()
 
-def open_sesame(keyfreq,samplefreq):
+def fft_compare(keyfreq,samplefreq):
     print('done')
     fdrift = 50                                                               #82.5
     match = []
@@ -100,4 +100,4 @@ b = np.load('sample.npy')
 print(b)   
 """
 keyfreq2 = np.load('navid_sample.npy')                                               #load the database for comparison against the original voice (keyfreq1)
-open_sesame(keyfreq1,keyfreq2)                                                       #pass both keyfreq results to sesame() for comparison
+fft_compare(keyfreq1,keyfreq2)                                                       #pass both keyfreq results to sesame() for comparison
