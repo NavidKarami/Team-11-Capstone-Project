@@ -3,27 +3,43 @@
 
 import serial
 try:
-   gps = serial.Serial('COM3', 9600) #COM depends on your specific device
+   gps = serial.Serial('COM4', 9600) #COM depends on your specific device, second value is baudrate
+
 except:
    print('Failed to connect') #prints error if no device is connected
    exit()
 
 while 1:
    line = gps.readline() #reads line from gps but this data is in bytes
-   #print(line)
-   #print(type(line))
    x = line.decode('UTF-8') #converts bytes to str data type
-   #print(type(x))
-   print(x)
+   #print(x)
    data = x.split(",") #split the string when a comma occurs
-   if (data[0]=="$GNGLL"): #this is where the gps coordinates are located so we search for it
+   if (data[0]=="$GNGLL"): #this is where the gps coordinates are located so we search until we come across that line
       #print(data)
-      print(data[1], data[3]) #breakdown that specific line further
-      lat = int(float(data[1])) #we get numbers but they are slightly skewed
-      lon = int(float(data[3])) #NEED TO FIX THIS################
-   #ALMOST DONE###############################################
+      #print(data[1], data[3]) #breakdown that specific line further
+      x = float(data[1]) #we get coordinates but they are in dddmm.mmmm format
+      y = float(data[3])
+      
+      #convert dddmm.mmmm to decimal degree format
+      x1 = (x/100) - ((x%100)/100)
+      x2 = (x%100)/60
+      lat = x1 + x2
+      y1 = (y/100) - ((y%100)/100)
+      y2 = (y%100)/60
+      lon = y1 + y2
+
+      #check for correct +/- sign on coordinates
+      if data[2] == 'N':
+         lat = lat
+      else:
+         lat = lat*-1
+      if data[4] == 'W':
+         lon = lon*-1
+      else:
+         lon = lon
+      
       print("Your current GPS coordinates are:")
-      print("Latitude: ", lat, "\nLongitude: -", lon)
+      print("Latitude: ", lat, "\nLongitude: ", lon)
       exit()      
 
 fabkit.close()
