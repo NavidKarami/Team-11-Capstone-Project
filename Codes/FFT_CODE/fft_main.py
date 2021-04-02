@@ -86,7 +86,7 @@ def fft_compare(keyfreq,samplefreq):
     if len(match)>= len(keyfreq)*0.7:                                               #as we increase 0.7, we increase the accuracy expectation
         print('Hello Navid')
     else:
-        print('Nice try imposter')
+        print('Authentication failed')
        
 amp1, xlabel1 = plotfft('demo1')                                                     #sample fft of demo 1. amp1 = e from plotfft()
 keyfreq1, peaks1 = find_peaks(xlabel1, amp1)                                         #amp1 is = amp
