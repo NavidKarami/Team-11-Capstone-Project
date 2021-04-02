@@ -1,7 +1,7 @@
 import numpy as np
 
 #testing purposes, sample values to filter
-#cases checked, values close together within given tolernace range
+#cases checked, values close together within given tolernace range, values not withn tolerance range
 #duplicates, values within tolerance range at different points in the data (one at beginning/end)
 FreqData = [54,10,10,10,13,40,37,50]
 
