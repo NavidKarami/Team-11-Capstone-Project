@@ -25,7 +25,7 @@ def sound_fft(sound, rate):
     #Compute FFT and get rid of the right side
     fft_one_side = np.abs(fft[:n//2])
 
-    peaks,_ = find_peaks(fft_one_side, distance=30, width=1, height=30, prominence=4) #Got rid of the unwanted X
+    peaks,_ = find_peaks(fft_one_side, distance=50, width=1, height=10, prominence=4, threshold=0.01) #Got rid of the unwanted X
     #this find the freq of the highest peak
     freq_h_peak = np.argmax(fft)
 
@@ -33,7 +33,7 @@ def sound_fft(sound, rate):
     mag_unsorted = fft_one_side[peaks]
     #sort the magnitudes in descending order and print it
     mag_sort_list = sorted(fft_one_side[peaks], reverse= True)
-    print(mag_sort_list)
+    #print("Mag sorted from highest to lowest:", mag_sort_list)
 
     #create an empty list of size mag_sort_list
     freq_index = [0]*len(mag_sort_list)
@@ -42,8 +42,7 @@ def sound_fft(sound, rate):
         temp = mag_sort_list[k]
         freq_index[k] = np.where(fft_one_side == temp)[0][0]
     #print the freq 
-    print(freq_index)
-
+    #print("Freq sorted from highest to lowest:", freq_index)
     xf = np.linspace(0.0, 1.0/(2.0*T), int(n/2))
     one_side = np.abs(fft[:n//2])
     
@@ -54,11 +53,42 @@ def sound_fft(sound, rate):
     plt.ylabel("Magnitude")
     plt.show()
 
-def main():
-    file_path1 = "H1.wav"
+    return freq_index[:10]
 
+def fft_compare(keyfreq,samplefreq):
+    print('done')
+    fdrift = 40                                                          
+    match = []
+    for sample in samplefreq:
+        #print(sample)
+        for key in keyfreq:
+            #print(key)
+            if (key-fdrift)<=sample<=(key+fdrift):
+                match.append(1)
+                break
+    print(len(match))
+    print(len(keyfreq))
+
+    if len(match)>= len(keyfreq)*0.7:                                               #as we increase 0.7, we increase the accuracy expectation
+        print('Hello Navid')
+    else:
+        print('Authentication Failed')
+
+def main():
+    #Load the audio file and perform FFT and find the top 10 freq - print them
+    file_path1 = "tamarr2.wav"
     samples1, sampling_rate1 = librosa.load(file_path1, sr = None, mono = True, offset = 0.0, duration = None)
-    sound_fft(samples1, sampling_rate1)
+    keyfreq1 = sound_fft(samples1, sampling_rate1)
+    print(keyfreq1)
+
+    #Load the audio file and perform FFT and find the top 10 freq - print them
+    file_path2 = "tamarr1.wav"
+    samples2, sampling_rate2 = librosa.load(file_path2, sr = None, mono = True, offset = 0.0, duration = None)
+    keyfreq2 = sound_fft(samples2, sampling_rate2)
+    print(keyfreq2)
+
+    #Compare the two audio files top 10 freqs
+    fft_compare(keyfreq1,keyfreq2)
 
 if __name__ == '__main__':
     main()
