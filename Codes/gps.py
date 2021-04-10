@@ -6,7 +6,8 @@ try:
    gps = serial.Serial('COM4', 9600) #COM depends on your specific device, second value is baudrate
 
 except:
-   print('Failed to connect') #prints error if no device is connected
+   print('Failed to connect.') #prints error if no device is connected
+   print('Try the following command in the prompt to see all available ports: \npython -m serial.tools.list_ports')
    exit()
 
 while 1:
@@ -16,7 +17,6 @@ while 1:
    data = x.split(",") #split the string when a comma occurs
    if (data[0]=="$GNGLL"): #this is where the gps coordinates are located so we search until we come across that line
       #print(data)
-      #print(data[1], data[3]) #breakdown that specific line further
       x = float(data[1]) #we get coordinates but they are in dddmm.mmmm format
       y = float(data[3])
       
