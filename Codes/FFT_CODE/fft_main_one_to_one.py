@@ -59,7 +59,7 @@ def find_peak(xlabel,amp):
     #print(peaks[ind])
     pkfreq = xlabel[peaks[ind]]
     #print(xlabel[635])
-    keyfreq = pkfreq[0:4]                                                     #Shows the top freq - adjust the number as needed. With 4, you get the top four
+    keyfreq = pkfreq[0:4]                                                     #Shows the top freq. Adjust the number as needed. #4, you get the top four
     print(keyfreq)
 
     return keyfreq, pkfreq
@@ -72,17 +72,21 @@ def fft_compare(keyfreq,samplefreq):
     index_match = []
     nomatch_index = []
 
+    keyfreq = sorted(keyfreq, reverse = True)                                   #sort from highest to lowest
+    print("Comparing" + str(keyfreq))
     test = [232.49, 362.18, 477.75, 120.55]                                     #This would be my database. If you don't want to use this database and want to compare two audio files. uncomment line 107 and change "for sample in test" to "for sample in samplefreq"                
-  
+    test = sorted(test, reverse = True)
+    print("With:" + str(test));                                                 #sort from highest to lowest
+
     i = 0
-    for sample in test:                                                   #Perform a one-to-one comparison between the database and the loaded audi file (keyfreq in this case)
+    for sample in test:                                                   #Perform a one-to-one comparison between the database (test[]) and the loaded audio file (keyfreq in this case)
         #print(sample)
         if ((keyfreq[i]-fdrift)<=sample<=(keyfreq[i]+fdrift)):
             #print(keyfreq[i])
             index_match.append(i)
             match.append(1)
         else:
-            nomatch_index.append(i)
+            nomatch_index.append(i)                                      #It keeps track of the index which did not match
         i = i + 1
 
     print(len(match))
