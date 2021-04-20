@@ -1,5 +1,8 @@
 #GPS module code
 #this code reads data from the usb port (your gps in this case)
+#require serial and pyserial module
+#pip install serial
+#pip install pyserial
 
 import serial
 try:
