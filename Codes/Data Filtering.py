@@ -17,7 +17,12 @@ for Freq in FreqData: #scans through all values taken and filters any extra peak
     #if the current iteration is within the bounds of any of the values then move to the next iteration
     if any((Freq2-tolerance)<=Freq<=(Freq2+tolerance) for Freq2 in FilteredFreqData): 
         continue
-
+    
+    #1500 was selected as the first initial test value ; from observation of the plots of the audio, it appeared that most clear and distinct peaks that
+    #was consistent among samples tend to be between 1-3kHz and anything above varied greatly.
+    if Freq > 1500: #filters out any frequencies above the given value
+        continue
+        
     if Freq in FilteredFreqData: #avoid duplicate values
         continue
     FilteredFreqData.append(Freq)
