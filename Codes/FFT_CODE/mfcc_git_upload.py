@@ -196,8 +196,9 @@ def main():
 
     # get the audio file mfcc values to be used in mfcc_compare()
     audio_mfcc,_ = mfcc_process('uzi_navid_2')
-    # data_bottom to be used in mfcc_compare 
+    # data_bottom to be used in mfcc_compare - databottom is the database
     data_bottom = mfcc_database(mfcc_coef_audio1, mfcc_coef_audio2, mfcc_coef_audio3, mfcc_coef_audio4, mfcc_coef_audio5)
+    #print(data_bottom)
     #Pass the data_bottom which is our database and audio file to the mfcc_compare
     mfcc_compare(data_bottom, audio_mfcc)
 
