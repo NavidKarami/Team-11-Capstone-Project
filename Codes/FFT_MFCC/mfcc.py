@@ -11,31 +11,27 @@ def mfcc_compare(database, audio_mfcc):
     m1_bottom_mfcc1 = sorted((abs(audio_mfcc[0])),reverse = True)                  
     m2_bottom_mfcc1 = sorted((abs(audio_mfcc[1])),reverse = True)
     m3_bottom_mfcc1 = sorted((abs(audio_mfcc[2])),reverse = True)
-
-    m123_bottom = np.concatenate((m1_bottom_mfcc1,m2_bottom_mfcc1,m3_bottom_mfcc1))
-
-    print(m123_bottom)
-#    print(database)
+    m4_bottom_mfcc1 = sorted((abs(audio_mfcc[3])),reverse = True)
+    m5_bottom_mfcc1 = sorted((abs(audio_mfcc[4])),reverse = True)
+    m123_bottom = np.concatenate((m1_bottom_mfcc1,m2_bottom_mfcc1,m3_bottom_mfcc1,m4_bottom_mfcc1,m5_bottom_mfcc1))
 
     fdrift = 20
     match = []
     nomatch_index = []
     index_match = []
     i = 0
-    for sample in database:                                   #Perform a one-to-one comparison between the database and the loaded audio file (m12345_bottom)
-        #print("Comparing " + str(sample) + " with " + str(int(m12345_bottom[i])))
+    for sample in database:                     #Perform a one-to-one comparison between the database and the loaded audio file (m12345_bottom)
         if ((m123_bottom[i]-fdrift)<=sample<=(m123_bottom[i]+fdrift)):
             index_match.append(i)
             match.append(1)                                 
         else:
-            nomatch_index.append(i)                                                     #It keeps track of the index which did not match
+            nomatch_index.append(i)             #It keeps track of the index which did not match
         i = i + 1
 
-    print(len(match))
-    print(len(database))
+    print((len(match))/(len(database)))
 
-    if len(match)>= len(m123_bottom)*0.70:                                           #as we increase 0.8, we increase the accuracy expectation. Right now we want 80% of the data match with database
-        print('Hello Navid')
+    if len(match)>= len(m123_bottom)*0.70:      #as we increase 0.8, we increase the accuracy expectation. Right now we want 80% of the data match with database
+        print('Welcome ')#, name)
         flag = 1
     else:
         print('Authentication Failed')
@@ -58,58 +54,70 @@ def mfcc_database(mfcc_data_1, mfcc_data_2, mfcc_data_3, mfcc_data_4, mfcc_data_
     m1_bottom_mfcc1 = sorted((abs(mfcc_data_1[0])),reverse = True)                                      
     m2_bottom_mfcc1 = sorted((abs(mfcc_data_1[1])),reverse = True)
     m3_bottom_mfcc1 = sorted((abs(mfcc_data_1[2])),reverse = True)
+    m4_bottom_mfcc1 = sorted((abs(mfcc_data_1[3])),reverse = True)
+    m5_bottom_mfcc1 = sorted((abs(mfcc_data_1[4])),reverse = True)
 
     #Extracting Audio file #2 mfcc values
     m1_bottom_mfcc2 = sorted((abs(mfcc_data_2[0])),reverse = True)
     m2_bottom_mfcc2 = sorted((abs(mfcc_data_2[1])),reverse = True)
     m3_bottom_mfcc2 = sorted((abs(mfcc_data_2[2])),reverse = True)
+    m4_bottom_mfcc2 = sorted((abs(mfcc_data_2[3])),reverse = True)
+    m5_bottom_mfcc2 = sorted((abs(mfcc_data_2[4])),reverse = True)
 
     #Extracting Audio file #3 mfcc values
     m1_bottom_mfcc3 = sorted((abs(mfcc_data_3[0])),reverse = True)
     m2_bottom_mfcc3 = sorted((abs(mfcc_data_3[1])),reverse = True)
     m3_bottom_mfcc3 = sorted((abs(mfcc_data_3[2])),reverse = True)
+    m4_bottom_mfcc3 = sorted((abs(mfcc_data_3[3])),reverse = True)
+    m5_bottom_mfcc3 = sorted((abs(mfcc_data_3[4])),reverse = True)
 
     #Extracting Audio file #4 mfcc values
     m1_bottom_mfcc4 = sorted((abs(mfcc_data_4[0])),reverse = True)
     m2_bottom_mfcc4 = sorted((abs(mfcc_data_4[1])),reverse = True)
     m3_bottom_mfcc4 = sorted((abs(mfcc_data_4[2])),reverse = True)
+    m4_bottom_mfcc4 = sorted((abs(mfcc_data_4[3])),reverse = True)
+    m5_bottom_mfcc4 = sorted((abs(mfcc_data_4[4])),reverse = True)
  
     #Extracting Audio file #5 mfcc values
     m1_bottom_mfcc5 = sorted((abs(mfcc_data_5[0])),reverse = True)
     m2_bottom_mfcc5 = sorted((abs(mfcc_data_5[1])),reverse = True)
     m3_bottom_mfcc5 = sorted((abs(mfcc_data_5[2])),reverse = True)
+    m4_bottom_mfcc5 = sorted((abs(mfcc_data_5[3])),reverse = True)
+    m5_bottom_mfcc5 = sorted((abs(mfcc_data_5[4])),reverse = True)
 
     #Create 2-D arrays to work with the above data coming from audio files mfcc
     rows, cols = (12, 12)
     m1_bottom_total = [[0]*cols]*rows
     m2_bottom_total = [[0]*cols]*rows
     m3_bottom_total = [[0]*cols]*rows
-
-
-    print(m1_bottom_mfcc5)
+    m4_bottom_total = [[0]*cols]*rows
+    m5_bottom_total = [[0]*cols]*rows
 
     #Adding the coeff indexes and divide them by 5 to get the average - five audio files, we are looking at five coeff of each and each coeff having 12 values 
     for ind in range(len(m1_bottom_mfcc1)):
-        print(m1_bottom_mfcc1[ind], m1_bottom_mfcc2[ind], m1_bottom_mfcc3[ind], m1_bottom_mfcc4[ind], m1_bottom_mfcc5[ind])
+        #print(m1_bottom_mfcc1[ind], m1_bottom_mfcc2[ind], m1_bottom_mfcc3[ind], m1_bottom_mfcc4[ind], m1_bottom_mfcc5[ind])
         m1_total = m1_bottom_mfcc1[ind] + m1_bottom_mfcc2[ind] + m1_bottom_mfcc3[ind] + m1_bottom_mfcc4[ind] + m1_bottom_mfcc5[ind]
         m2_total = m2_bottom_mfcc1[ind] + m2_bottom_mfcc2[ind] + m2_bottom_mfcc3[ind] + m2_bottom_mfcc4[ind] + m2_bottom_mfcc5[ind]
         m3_total = m3_bottom_mfcc1[ind] + m3_bottom_mfcc2[ind] + m3_bottom_mfcc3[ind] + m3_bottom_mfcc4[ind] + m3_bottom_mfcc5[ind]
+        m4_total = m4_bottom_mfcc1[ind] + m4_bottom_mfcc2[ind] + m4_bottom_mfcc3[ind] + m4_bottom_mfcc4[ind] + m4_bottom_mfcc5[ind]
+        m5_total = m5_bottom_mfcc1[ind] + m5_bottom_mfcc2[ind] + m5_bottom_mfcc3[ind] + m5_bottom_mfcc4[ind] + m5_bottom_mfcc5[ind]
 
         m1_bottom_total[ind] = m1_total/5
         m2_bottom_total[ind] = m2_total/5
         m3_bottom_total[ind] = m3_total/5
-
+        m4_bottom_total[ind] = m4_total/5
+        m5_bottom_total[ind] = m5_total/5
+        
     #concatenate the results into one array
-    m12345_bottom = np.concatenate((m1_bottom_total,m2_bottom_total,m3_bottom_total)) 
+    m12345_bottom = np.concatenate((m1_bottom_total,m2_bottom_total,m3_bottom_total, m4_bottom_total, m5_bottom_total)) 
     #Return value is the database - it contains coeff from five audio files and each having total of 12. So, there are 60 values in it
-    np.savetxt('naviddata.txt', m12345_bottom, fmt= '%f')
-    b = np.loadtxt('naviddata.txt', dtype=float)
+    np.savetxt('tamarrdata.txt', m12345_bottom, fmt= '%f')
+    b = np.loadtxt('tamarrdata.txt', dtype=float)
     print(m12345_bottom)
     print(b)
     return m12345_bottom
 
 def mfcc_process(filename):
-    #sample_rate, signal = scipy.io.wavfile.read('uzi_1.wav')  # File assumed to be in the same directory
     sample_rate, signal = scipy.io.wavfile.read('%s.wav' %filename)
     #signal = signal[0:int(3.0 * sample_rate)]  # Keep the first 3.5 seconds
 
@@ -146,9 +154,6 @@ def mfcc_process(filename):
     hz_points = (700 * (10**(mel_points / 2595) - 1))  # Convert Mel to Hz
     bin = numpy.floor((NFFT + 1) * hz_points / sample_rate)
 
-    #print("bins are:")
-    #print(bin)
-
     fbank = numpy.zeros((nfilt, int(numpy.floor(NFFT / 2 + 1))))
     for m in range(1, nfilt + 1):
         f_m_minus = int(bin[m - 1])   # left
@@ -178,7 +183,7 @@ def mfcc_process(filename):
     return abs(mfcc), len(abs(mfcc))
 
 def main():
-    print("Hello main")
+    print("Database creation/MFCC comparison")
     # Create arrays to store each audio file info to them and pass them into mfcc_databse() function to create the database
     mfcc_coef_audio1 = []
     mfcc_coef_audio2 = []
@@ -187,19 +192,21 @@ def main():
     mfcc_coef_audio5 = []
  
     # Get each audio file mfcc coefficient and use it in mfcc_databse to create the database
-    mfcc_coef_audio1, len_mfcc_audio1 = mfcc_process('navid_navid_1')         
-    mfcc_coef_audio2, len_mfcc_audio2 = mfcc_process('navid_navid_3')
-    mfcc_coef_audio3, len_mfcc_audio3 = mfcc_process('navid_navid_4')
-    mfcc_coef_audio4, len_mfcc_audio4 = mfcc_process('navid_navid_5')
-    mfcc_coef_audio5, len_mfcc_audio5 = mfcc_process('navid_navid_6')
+    #mfcc_coef_audio1, len_mfcc_audio1 = mfcc_process('tamarr_tamarr_1')         
+    #mfcc_coef_audio2, len_mfcc_audio2 = mfcc_process('tamarr_tamarr_2')
+    #mfcc_coef_audio3, len_mfcc_audio3 = mfcc_process('tamarr_tamarr_3')
+    #mfcc_coef_audio4, len_mfcc_audio4 = mfcc_process('tamarr_tamarr_4')
+    #mfcc_coef_audio5, len_mfcc_audio5 = mfcc_process('tamarr_tamarr_5')
 
 
     # get the audio file mfcc values to be used in mfcc_compare()
-    audio_mfcc,_ = mfcc_process('navid_navid_2')
+    audio_mfcc,_ = mfcc_process('danny_tamarr_5')
     # data_bottom to be used in mfcc_compare - databottom is the database
-    data_bottom = mfcc_database(mfcc_coef_audio1, mfcc_coef_audio2, mfcc_coef_audio3, mfcc_coef_audio4, mfcc_coef_audio5)
+    #data_bottom = mfcc_database(mfcc_coef_audio1, mfcc_coef_audio2, mfcc_coef_audio3, mfcc_coef_audio4, mfcc_coef_audio5)
     #print(data_bottom)
     #Pass the data_bottom which is our database and audio file to the mfcc_compare
+    data_bottom = np.loadtxt('tamarrdata.txt', dtype=float) #s comes from the name and the data will be stored in a textfile
+    print(data_bottom)
     mfcc_compare(data_bottom, audio_mfcc)
 
 if __name__ == '__main__':
