@@ -1,4 +1,4 @@
-# these were used for the main module (users/pins)
+# used for the main module (users/pins)
 import os
 import time
 import sys
@@ -18,7 +18,7 @@ from xlwt import Workbook
 # used for the GPS module
 import serial
 
-from voice_onehot_key import *
+from recording import *     # name the other files recording and mfcc or change these names to what you want
 from mfcc import *
 
 def GPS():
@@ -63,20 +63,24 @@ def GPS():
     
     fabkit.close()
 
+
+    
+###################################################
+    ################################ this only works for returning users not new users
 def voice(name, index, rec):
     print("\nWhen you are ready to record, press 'r' and hit 'enter' on your keyboard.")
     print("There is a slight delay after your keyboard input. You will be prompted when to speak.")
-    print("The phrase you need to say is: This is (yourname)")
+    print("The phrase you need to say is: This is (your name)")
     u_input = str("k")
     while (u_input != "r"):
         print("\nPress 'r'  and hit 'enter' when ready.")
         u_input = input()
 
-    print("please speak a word into the microphone after a short delay with normal tone and speed")
+    print("Please say the phrase into the microphone after a short delay with normal tone and speed")
     record_to_file('demo1.wav')
     print("done - result written to demo1.wav")
     data_import = np.loadtxt('%sdata.txt' %name, dtype=float) #s comes from the name and the data will be stored in a textfile
-    #print(data_import)
+    
     audio_mfcc,_ = mfcc_process('demo1') #demo1 gets stored into audio_mfcc after getting processed
     mfcc_result = mfcc_compare(data_import, audio_mfcc)
     if mfcc_result == True:
@@ -84,17 +88,17 @@ def voice(name, index, rec):
     else:
         attempt = 2
         for a in range(attempt):
-            print("Did not recognize you. Try again.")
-            print("please speak a word into the microphone with normal tone and speed after the displayed delay")
+            print("We did not recognize you as ",name,". Try again.")
+            print("Please say the phrase after the short delay.")
             record_to_file('demo1.wav')
             audio_mfcc,_ = mfcc_process('demo1')
-            print(data_import)
             mfcc_result = mfcc_compare(data_import, audio_mfcc)
             if mfcc_result == True:
                 GPS()
                 break
-        print("Too many attempts locking you out")
-        #delay will be added later
+        print("Too many attempts. Locking you out for 10 sec.")
+        time.sleep(10)  # time that user gets locked out (in sec)
+        main()
 
 # From here down, this is user/pin code.
 class user:
@@ -149,10 +153,12 @@ def newuser():
     print(name, "is now a registered user.")
     # Store the pincode in the system
     user.pin.append(pinnum)
-    print('we should go to creating database now    call recording module')
+    # we go to voice recording module now to create database for new user
     rec = 1
     index = 0
-    voice(index, rec)
+    ##############voice(name, index, rec)
+    #need to call a different function. voice only has one recording... we need 5 recordings.
+    # add this to the recording stuff?????
 
 def currentuser():
     # This function is used to check if you are a current user in the code. 
