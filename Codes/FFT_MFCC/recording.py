@@ -98,8 +98,6 @@ def record():
     p.terminate()
 
     r = normalize(r)
-    #r = trim(r)
-    #r = add_silence(r, 0.1)
     return sample_width, r
 
 def record_to_file(path):
@@ -114,18 +112,16 @@ def record_to_file(path):
     wf.writeframes(data)
     wf.close()
 
-## Countdown function starts here
-def stopwatch(sec):
+def stopwatch(sec):                 # Countdown function starts here
     while sec:
         minn, secc = divmod(sec, 60)
         timeformat = '{:02d}:{:02d}'.format(minn, secc)
         print(timeformat, end='\r')
         t.sleep(1)
         sec -= 1
-    #print('Goodbye!\n')
-## calling stopwatch function
 
 if __name__ == '__main__':
+    #####################create definition here to either call the record_to_file once or five times depending on current/new user
     
     u_input = str("k")
     while ((u_input != "r") and (u_input != "e")):
