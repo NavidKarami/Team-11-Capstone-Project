@@ -41,21 +41,21 @@ def voice_current(name, index, rec):            # This is current user voice ana
         attempt = 2
         for a in range(attempt):
             print("We did not recognize you as", name,". Try again.")
-            #print("Please say the phrase after the displayed delay.")
             record_audio_test()
             
             mfcc_result = test_model(name)
             if mfcc_result == True:
-                exit(1)
+                GPS()
+                main()
                 
         print("Too many attempts. Locking you out for 10 sec.")
-        #time.sleep(10)  # time that user gets locked out (in sec)
+        time.sleep(10)              # time that user gets locked out (in sec)
         main()
 
 # This class helps in user and pin module to keep track of number of users and attempts
-class user:         ###################################### are we still using this stuff?###########################################################
-    count = 0  # count and trail are just counters
+class user: 
     trail = 0
+    count = 0
     username = []
     userpin = []
 
@@ -84,10 +84,10 @@ def newuser():                              # New user module where user creates
         else:
             break  
     # Stores the username in the system and writes/saves it in the text file
-    user_file_path = "username.txt"
+    user_file_path = "username.txt" 
     user_path = open(user_file_path, 'a')
     user_path.write("\n%s" %name)
-    user.username.append(name)###########################are we still using that variable??????#########
+    user.username.append(name)      # append the new username to the rest of the database
     user_path.close()
 
     # Ask the user to create their four digit pin code.
@@ -113,12 +113,14 @@ def newuser():                              # New user module where user creates
         else:
             break
     print(name, "is now a registered user.")
+    
     # Store the pincode in the system and writes/saves it into the text file
     pass_file_path = "password.txt"
     pass_path = open(pass_file_path, 'a')
     pass_path.write("\n%s" %pinnum)
-    user.userpin.append(pinnum)
+    user.userpin.append(pinnum)     # append the pin to the rest of the database
     pass_path.close()
+   
     # we go to voice recording module now to create database for new user
     # new user now needs to record 15 audio files for training purposes
     record_audio_train(name)
