@@ -73,5 +73,6 @@ def test_model(name):				# we are passing the username to this function
 			return flag		# returning the flag to the code where this function was called
 	else:					
 		print("Failed authentication for %s" %name)	# if you dont match then you get a error message and the flag is set as false
+		os.remove("sample.wav")
 		flag = False
 		return flag
