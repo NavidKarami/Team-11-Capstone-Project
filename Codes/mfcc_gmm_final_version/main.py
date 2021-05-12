@@ -14,7 +14,7 @@ import numpy as np
 import re    
 
 #import all the function from recording module
-from recording import *
+from recording_currentuser import *
 #import all the functions from recording_newuser module
 from recording_newuser import *  
 #import all the functions from SpeakerIdentification module
