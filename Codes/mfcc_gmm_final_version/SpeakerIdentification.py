@@ -13,11 +13,8 @@ from sklearn.mixture import GaussianMixture
 
 warnings.filterwarnings("ignore")
 
-def calculate_delta(array):
-   
+def calculate_delta(array):			# navid can you comment here###############   
     rows,cols = array.shape
-    #print(rows)
-    #print(cols)
     deltas = np.zeros((rows,20))
     N = 2
     for i in range(rows):
@@ -37,20 +34,17 @@ def calculate_delta(array):
         deltas[i] = ( array[index[0][0]]-array[index[0][1]] + (2 * (array[index[1][0]]-array[index[1][1]])) ) / 10
     return deltas
 
-def extract_features(audio,rate):
-       
+def extract_features(audio,rate):		# comment here too what this overall does###############333333
     mfcc_feature = mfcc.mfcc(audio,rate, 0.025, 0.01,20,nfft = 1200, appendEnergy = True)    
     mfcc_feature = preprocessing.scale(mfcc_feature)
-    #print(mfcc_feature)
     delta = calculate_delta(mfcc_feature)
     combined = np.hstack((mfcc_feature,delta)) 
     return combined
 
-def test_model(name):
-	flag = False
+def test_model(name):				# we are passing the username to this function
+	flag = False				# setting flag as false and loading the freshly recorded audio file and trained models folder
 	source = "sample.wav"
 	modelpath = "trained_models/"
-	 
 	gmm_files = [os.path.join(modelpath,fname) for fname in
 	              os.listdir(modelpath) if fname.endswith('.gmm')]
 	 
@@ -60,27 +54,24 @@ def test_model(name):
 	              in gmm_files]
 	 
 	# Read the test directory and get the list of test audio files 
-
 	sr,audio = read(source)
 	vector   = extract_features(audio,sr)
 	log_likelihood = np.zeros(len(models)) 
 
 	for i in range(len(models)):
-		gmm = models[i]  #checking with each model one by one
+		gmm = models[i]  		# checking with each model one by one
 		scores = np.array(gmm.score(vector))
 		log_likelihood[i] = scores.sum()
 	
 	name_compare = "trained_models/%s_15.wav" %name
-	#print(name_compare)
 	winner = np.argmax(log_likelihood)
-	if str(speakers[winner]) == str(name_compare):
-			print("Okay good %s" %name)
-			flag = True
-			os.remove("sample.wav")
+	if str(speakers[winner]) == str(name_compare):	# if the user matches the gmm files of the user you're trying to enter as then you proceed			
+			print("Voice authentication complete for %s" %name)
+			flag = True		# set flag to true
+			os.remove("sample.wav")	# deleting the fresh audio file
 			time.sleep(1.0)
-			return flag
-	#print("\tdetected as - ", speakers[winner])
-	else:
-		print("failed")
+			return flag		# returning the flag to the code where this function was called
+	else:					
+		print("Failed authentication for %s" %name)	# if you dont match then you get a error message and the flag is set as false
 		flag = False
 		return flag
