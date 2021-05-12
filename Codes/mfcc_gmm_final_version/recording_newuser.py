@@ -32,7 +32,7 @@ def train_model(name):
         else:
             features = np.vstack((features, vector))
 
-        if count == 4:    #15
+        if count == 15:    
             gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)
             gmm.fit(features)
 	        
@@ -54,7 +54,7 @@ def train_model(name):
     f.close() 
     k = 1
     file_paths.close()
-    for j in range(4):#15
+    for j in range(15):
         os.remove("%s_"%name+str(k)+".wav")
         k = k + 1
         
@@ -74,7 +74,7 @@ def record_audio_train(name):
     count = 1
     print("You will recored 15 audio files back to back for training purposes.")
     print("Please say the phrase into the microphone after a short delay with normal tone and speed")
-    for j in range(4):#15    
+    for j in range(15):    
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
         RATE = 44100
