@@ -40,5 +40,4 @@ def GPS():
 
             g_flag = True
             return print("\nYour current GPS coordinates are: \nLatitude: ", lat, "\nLongitude: ", lon)
-    
-    fabkit.close()
+  
