@@ -1,10 +1,10 @@
-
 import time as t
 import pyaudio
 import time
 import wave
 
-def stopwatch(sec):                 # Countdown function starts here
+# Countdown function starts here
+def stopwatch(sec):                 
     while sec:
         minn, secc = divmod(sec, 60)
         timeformat = '{:02d}:{:02d}'.format(minn, secc)
