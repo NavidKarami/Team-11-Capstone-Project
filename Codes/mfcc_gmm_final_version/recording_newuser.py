@@ -5,14 +5,12 @@ import wave
 import numpy
 import scipy.io.wavfile
 from scipy.fftpack import dct
-from SpeakerIdentification import *
+from voice_authentication import *
 
-def train_model(name):
-    # We read 15 audio files for each used. Extract the features of each and save it in the features. 
-	# We calculate the gmm of the features vector and store it
-	# gmm is our database
+def train_model(name):			# pass the username we are logging in as
+    # We read 15 audio files for each user. Extract the features of each and save it in the features. 
+    # We calculate the gmm of the features vector and store it in the trained models folder
     audio_num = 1
-    #source = "%s_sample" %name+str(audio_num)+".wav"
     source = "%s_"%name+str(audio_num)+".wav"   
     dest = "trained_models/"
     train_file = "training_set.txt"        
@@ -36,15 +34,14 @@ def train_model(name):
             gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)
             gmm.fit(features)
 	        
-	        # dumping the trained gaussian model
+	    # dumping the trained gaussian model
             picklefile = path.split("-")[0]+".gmm"
             pickle.dump(gmm,open(dest + picklefile,'wb'))
-            #print('+ modeling completed for speaker:',picklefile," with data point = ",features.shape)
             print("Model created for user: %s" %name)   
             features = np.asarray(())
             count = 0
         count = count + 1
-    #let's remove the contents of training_set.txt file and all the audio files
+    # let's remove the contents of training_set.txt file and all the audio files
     # open file 
     f = open(train_file, "r+") 
     # absolute file positioning
@@ -67,13 +64,13 @@ def stopwatch(sec):
         t.sleep(1)
         sec -= 1
         
-def record_audio_train(name):
+def record_audio_train(name):		# pass username to our function which is for recording 15 audio files
     training = "training_set.txt"
     file = open(training, 'a')
     j = 0
     count = 1
     print("You will recored 15 audio files back to back for training purposes.")
-    print("Please say the phrase into the microphone after a short delay with normal tone and speed")
+    print("Please say 'this is (name)' into the microphone after a short delay with normal tone and speed")
     for j in range(15):    
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
@@ -84,13 +81,13 @@ def record_audio_train(name):
         audio = pyaudio.PyAudio()
 
         stopwatch(2)
-        print ("recording started" + "Audio file #"+str(count))
+        print ("Recording started" + "Audio file #"+str(count))
         stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output = True, frames_per_buffer=CHUNK)
         Recordframes = []
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             Recordframes.append(data)
-        print ("recording stopped")
+        print ("Recording stopped")
         stream.stop_stream()
         stream.close()
         audio.terminate()
