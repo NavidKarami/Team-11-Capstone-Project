@@ -18,7 +18,7 @@ from recording_currentuser import *
 #import all the functions from recording_newuser module
 from recording_newuser import *  
 #import all the functions from SpeakerIdentification module
-from SpeakerIdentification import *
+from voice_authentication import *
 #import GPS module
 from GPS import *
 
