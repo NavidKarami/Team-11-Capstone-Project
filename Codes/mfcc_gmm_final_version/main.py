@@ -22,21 +22,22 @@ from voice_authentication import *
 #import GPS module
 from GPS import *
 
-def voice_current(name, index, rec):            # This is current user voice analysis module.
+def voice_current(name, index):            # This is current user voice analysis module.
     print("\nWhen you are ready to record, press 'r' and hit 'enter' on your keyboard.")
     print("There is a slight delay after your keyboard input. You will be prompted when to speak.")
     print("The phrase you need to say is: This is (your name)")
     u_input = str("k")
     while (u_input != "r"):         # we wait for the user to press "r" and hit "enter"
         print("\nPress 'r' and hit 'enter' when ready to say your phrase")
-        u_input = input()
+        u_input = input()           # capture user input and check if it was "r" or no. If yes, go ahead if not loop until "r" pressed
         
-    record_audio_test()             # we then call the audio recording code
-    mfcc_result = test_model(name)  #
-    
+    record_audio_test()             # we then call the audio recording code for the current user. It saves a sample.wav file in the current directory 
+    mfcc_result = test_model(name)  # performs voice analysis and return true if passed and false if it did not
+    # if the return value was true we get the GPS cordinates and return to the main menu
     if mfcc_result == True:
         GPS()
         main()
+    #if the return value was false we allow user to try two more times before getting locked out for X# of seconds    
     else:
         attempt = 2
         for a in range(attempt):
@@ -160,7 +161,7 @@ def current_user_pin(index, username):  # Function for checking if pin matches c
     pass_file_path = "password.txt"     # We are opening and reading from the password text file. 
     pass_path = open(pass_file_path, 'r')
     i = 0
-    for path in pass_path:              #read one word at a time from the text file and removing the newline at the end
+    for path in pass_path:              #read one word(str) at a time from the text file and removing the newline at the end
         path = str(path.rstrip())
         user.userpin.insert(i, path)    #saving the password into user class's userpin variable at the correct index (i)
         i = i + 1       # keeping track of the total number of saved passwords
@@ -172,8 +173,7 @@ def current_user_pin(index, username):  # Function for checking if pin matches c
         print("\nWelcome: ", username[index])
         user.count = 0      # reset the count for the next person logging in
         print("Proceeding to voice analysis.")
-        rec = 0################## not sure if we need this variable anymore... need to double check on it######
-        voice_current(username[index], index, rec) # we call the current voice function to perform voice analysis
+        voice_current(username[index], index) # we call the current voice function to perform voice analysis
         
     print("\nIncorrect pin. Try again.")  # if the input doesn't match the user's pin, then we get error message
     user.count = user.count + 1 
