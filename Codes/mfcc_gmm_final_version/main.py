@@ -144,7 +144,7 @@ def currentuser():                  # This function is for current users.
         if(temp_name == user.username[k]):
             user.trail = 0
             index = k       # Set the index so we know which element in the pin array we need to check
-            current_user_pin(index, user.username) # Pass index to pin function
+            current_user_pin(index, user.username) # Pass index and username to pin function
 
     # If the name isn't in the array, ask the user to try again
     print("Invalid username. Try again.")
@@ -160,9 +160,9 @@ def current_user_pin(index, username):  # Function for checking if pin matches c
     pass_file_path = "password.txt"     # We are opening and reading from the password text file. 
     pass_path = open(pass_file_path, 'r')
     i = 0
-    for path in pass_path:
+    for path in pass_path:              #read one word at a time from the text file and removing the newline at the end
         path = str(path.rstrip())
-        user.userpin.insert(i, path)
+        user.userpin.insert(i, path)    #saving the password into user class's userpin variable at the correct index (i)
         i = i + 1       # keeping track of the total number of saved passwords
     pass_path.close()   # we close the file and take the users input
     temp_pin = input("Enter your pin:")
