@@ -13,7 +13,7 @@ from sklearn.mixture import GaussianMixture
 
 warnings.filterwarnings("ignore")
 
-def calculate_delta(array):			# navid can you comment here###############   
+def calculate_delta(array):			   
     rows,cols = array.shape
     deltas = np.zeros((rows,20))
     N = 2
@@ -34,11 +34,17 @@ def calculate_delta(array):			# navid can you comment here###############
         deltas[i] = ( array[index[0][0]]-array[index[0][1]] + (2 * (array[index[1][0]]-array[index[1][1]])) ) / 10
     return deltas
 
-def extract_features(audio,rate):		# comment here too what this overall does###############333333
-    mfcc_feature = mfcc.mfcc(audio,rate, 0.025, 0.01,20,nfft = 1200, appendEnergy = True)    
+# This functiona extract the audio file features - the features are called Mel-frequency Cepstral Coefficients (MFCCs)
+def extract_features(audio,rate):		
+    mfcc_feature = mfcc.mfcc(audio,rate, 0.025, 0.01,20,nfft = 1200, appendEnergy = True)
+#Here we are performing Standardization of datasets
+#In practice we often ignore the shape of the distribution and just transform the data to center it by removing the mean value of each feature, then scale it by dividing non-constant features by their standard deviation.
     mfcc_feature = preprocessing.scale(mfcc_feature)
+#The MFCC feature vector describes only the power spectral envelope of a single frame
+# we also want have information in the dynamics - what are the trajectories of the MFCC coefficients over time so we calculate the derivative 	
+# If we have 12 MFCC coefficients, we would also get 12 delta coefficients, which would combine to give a feature vector of length 24.
     delta = calculate_delta(mfcc_feature)
-    combined = np.hstack((mfcc_feature,delta)) 
+    combined = np.hstack((mfcc_feature,delta)) # Combining the mfcc coefs with deltas 
     return combined
 
 def test_model(name):				# we are passing the username to this function
@@ -53,7 +59,7 @@ def test_model(name):				# we are passing the username to this function
 	speakers   = [fname.split("\\")[-1].split(".gmm")[0] for fname 
 	              in gmm_files]
 	 
-	# Read the test directory and get the list of test audio files 
+	# Read the sample.wav audio file and extract its features  
 	sr,audio = read(source)
 	vector   = extract_features(audio,sr)
 	log_likelihood = np.zeros(len(models)) 
