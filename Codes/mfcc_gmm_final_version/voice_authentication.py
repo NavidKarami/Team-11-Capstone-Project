@@ -13,6 +13,7 @@ from sklearn.mixture import GaussianMixture
 
 warnings.filterwarnings("ignore")
 
+#Taking the derivatives of Mel-Frequency Coefficients
 def calculate_delta(array):			   
     rows,cols = array.shape
     deltas = np.zeros((rows,20))
