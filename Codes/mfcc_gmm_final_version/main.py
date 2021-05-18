@@ -184,48 +184,20 @@ def current_user_pin(index, username):  # Function for checking if pin matches c
         main()  # if we reach max attempts, we go back to main menu
     current_user_pin(index, username)  # call the pin function again until the user passes or fails 3 times
 
-def testing():                      # This is our function for functional tests. 
-    while True:
-        print('\n\n\nYou can perform the following functional tests:')
-        print("[a]: Number of registered users\n[b]: Test GPS\n[c]: MFCC values maybe??\n[d]: Return to main menu")
-        choice = input("Please select from the options above: ")
-        if (choice == 'a'):         # we open and read the username text file and count the number of users
-            user_file_path = "username.txt"
-            user_path = open(user_file_path, 'r')
-            i = 0
-            for path in user_path:
-                path = str(path.rstrip())
-                user.username.insert(i, path)
-                i = i + 1
-            user_path.close() 
-            print('\nRegistered users =', len(user.username))
-        elif (choice == 'b'):       # we can also test the GPS module by calling that function here
-            print('\nTesting GPS module')
-            GPS()
-        elif (choice == 'c'):       ####################not sure about this step. 
-            print('\nmaybe check the mfcc values?')
-        elif (choice == 'd'):       # You stay in this menu until you choose to return to the main menu. 
-            main()
-        else:
-            print('\nError, invalid input. Try again')
- 
-
+    
 def main():                         # This is the main menu for our program.  
     select = 0
     print("\n\n\nWELCOME!")
     while True:
         print("\nMain Menu")        # Able to add new users, log in as a current user, and perform some functional tests. 
-        print("[1]: New user\n[2]: Current user\n[3]: Functional tests\n[4]: Exit")
+        print("[1]: New user\n[2]: Current user\n[3]: Exit")
         select = input("Please select from the options above: ")
         if (select == '1'):
             newuser()
         elif (select == '2'):       
             select = 0
             currentuser()
-        elif (select == '3'):
-            select = 0
-            testing()
-        elif (select == '4'):       # Program runs until the user terminates it.
+        elif (select == '3'):       # Program runs until the user terminates it.
             print("\nProgram terminated.")
             exit()                  
         else:                       # Any input that isn't a valid option will get an error message.
