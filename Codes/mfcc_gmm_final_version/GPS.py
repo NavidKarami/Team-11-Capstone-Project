@@ -4,6 +4,7 @@ import serial
 def GPS():
     g_flag = False                          # set flag
     try:
+        #should we have something to find the ports and use them rather than fixed since it can be different for each user
         gps = serial.Serial('COM5', 9600)   # COM depends on your specific device, second value is baudrate
 
     except:
