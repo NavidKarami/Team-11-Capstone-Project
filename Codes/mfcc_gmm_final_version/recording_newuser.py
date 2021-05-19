@@ -12,11 +12,11 @@ def train_model(name):			# pass the username we are logging in as
     # We calculate the gmm of the features vector and store it in the trained models folder
     audio_num = 1
     source = "%s_"%name+str(audio_num)+".wav"   
-    dest = "trained_models/"
+    dest = "trained_models/"			################# I THINK THIS NEEDS MORE COMMENTS############3
     train_file = "training_set.txt"        
     file_paths = open(train_file,'r')
     count = 1
-    features = np.asarray(())	#convert the data into an array
+    features = np.asarray(())	# convert the data into an array
     for path in file_paths:    
         path = path.strip()   
         print(path)
@@ -24,13 +24,13 @@ def train_model(name):			# pass the username we are logging in as
         sr,audio = read(path)
         print(sr)
         vector = extract_features(audio,sr)
-	    
+	    						################# I THINK THIS NEEDS MORE COMMENTS############3
         if features.size == 0:
             features = vector
         else:
             features = np.vstack((features, vector))
 
-        if count == 15:    
+        if count == 15:    				################# I THINK THIS NEEDS MORE COMMENTS############3
             gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)
             gmm.fit(features)
 	        
@@ -42,12 +42,9 @@ def train_model(name):			# pass the username we are logging in as
             count = 0
         count = count + 1
     # let's remove the contents of training_set.txt file and all the audio files
-    # open file 
-    f = open(train_file, "r+") 
-    # absolute file positioning
-    f.seek(0) 
-    # to erase all data 
-    f.truncate()
+    f = open(train_file, "r+") 		# open file 
+    f.seek(0) 				# absolute file positioning
+    f.truncate()		    	# to erase all data 
     f.close() 
     k = 1
     file_paths.close()
@@ -72,7 +69,7 @@ def record_audio_train(name):		# pass username to our function which is for reco
     print("You will recored 15 audio files back to back for training purposes.")
     print("Please say 'this is (name)' into the microphone after a short delay with normal tone and speed")
     for j in range(15):    
-        FORMAT = pyaudio.paInt16
+        FORMAT = pyaudio.paInt16	# see recording_currentuser for comments on this (same process/variables)
         CHANNELS = 1
         RATE = 44100
         CHUNK = 512
