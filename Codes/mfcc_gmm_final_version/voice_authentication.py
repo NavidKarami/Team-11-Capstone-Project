@@ -13,7 +13,7 @@ from sklearn.mixture import GaussianMixture
 
 warnings.filterwarnings("ignore")
 
-#Taking the derivatives of Mel-Frequency Coefficients
+# Taking the derivatives of Mel-Frequency Coefficients
 def calculate_delta(array):			   
     rows,cols = array.shape
     deltas = np.zeros((rows,20))
@@ -38,14 +38,14 @@ def calculate_delta(array):
 # This functiona extract the audio file features - the features are called Mel-frequency Cepstral Coefficients (MFCCs)
 def extract_features(audio,rate):		
     mfcc_feature = mfcc.mfcc(audio,rate, 0.025, 0.01,20,nfft = 1200, appendEnergy = True)
-#Here we are performing Standardization of datasets
-#In practice we often ignore the shape of the distribution and just transform the data to center it by removing the mean value of each feature, then scale it by dividing non-constant features by their standard deviation.
+# Here we are performing Standardization of datasets
+# In practice we often ignore the shape of the distribution and just transform the data to center it by removing the mean value of each feature, then scale it by dividing non-constant features by their standard deviation.
     mfcc_feature = preprocessing.scale(mfcc_feature)
-#The MFCC feature vector describes only the power spectral envelope of a single frame
+# The MFCC feature vector describes only the power spectral envelope of a single frame
 # we also want have information in the dynamics - what are the trajectories of the MFCC coefficients over time so we calculate the derivative 	
 # If we have 12 MFCC coefficients, we would also get 12 delta coefficients, which would combine to give a feature vector of length 24.
     delta = calculate_delta(mfcc_feature)
-    combined = np.hstack((mfcc_feature,delta)) # Combining the mfcc coefs with deltas 
+    combined = np.hstack((mfcc_feature,delta))  # Combining the mfcc coefs with deltas 
     return combined
 
 def test_model(name):				# we are passing the username to this function
