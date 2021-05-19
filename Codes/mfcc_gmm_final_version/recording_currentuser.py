@@ -22,7 +22,7 @@ def record_audio_test():		# this function is used to start recording our audio f
     print("Please say the phrase into the microphone after a short delay with normal tone and speed")
     stopwatch(2)			# call the stopwatch right before recording
     print ("Recording started")
-    #set the PyAudio class variables 					
+    # set the PyAudio class variables 					
     stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output = True, frames_per_buffer=CHUNK)
     Recordframes = []
     for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
@@ -33,7 +33,7 @@ def record_audio_test():		# this function is used to start recording our audio f
     stream.close()
     audio.terminate()
     OUTPUT_FILENAME="sample.wav"	# we name the recording sample.wav
-    #Open the audio files and set the parameters 		
+    # Open the audio files and set the parameters 		
     waveFile = wave.open(OUTPUT_FILENAME, 'wb')		 # open the audio file as write only mode
     waveFile.setnchannels(CHANNELS)
     waveFile.setsampwidth(audio.get_sample_size(FORMAT)) # Set the sample width to n bytes
