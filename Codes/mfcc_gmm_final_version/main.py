@@ -37,7 +37,7 @@ def voice_current(name, index):            # This is current user voice analysis
     if mfcc_result == True:
         GPS()
         main()
-    #if the return value was false we allow user to try two more times before getting locked out for X# of seconds    
+    # if the return value was false we allow user to try two more times before getting locked out for X# of seconds    
     else:
         attempt = 2
         for a in range(attempt):
@@ -45,13 +45,13 @@ def voice_current(name, index):            # This is current user voice analysis
             record_audio_test()
             
             mfcc_result = test_model(name)
-            if mfcc_result == True:
-                GPS()
+            if mfcc_result == True:     # if the result comes back as true, we head to GPS module and display coordinates
+                GPS()                   # return to main once complete
                 main()
                 
         print("Too many attempts. Locking you out for 10 sec.")
         time.sleep(10)              # time that user gets locked out (in sec)
-        main()
+        main()                      # return to main once max attempts are reached
 
 # This class helps in user and pin module to keep track of number of users and attempts
 class user: 
@@ -67,7 +67,7 @@ def newuser():                              # New user module where user creates
     i = 0
     for path in user_path:
         path = str(path.rstrip())
-        user.username.insert(i, path)
+        user.username.insert(i, path)       # set our text file data to user.username
         i = i + 1               # keep count of number of registered users 
     user_path.close()           # closes the file
     
@@ -76,7 +76,7 @@ def newuser():                              # New user module where user creates
         name = input("Enter your username: ")
         check = bool(re.search(r"\s", name))
 
-        #Check the input string for spaces or if the username is already taken.
+        # Check the input string for spaces or if the username is already taken.
         if (check == True):     # if there's a space in the name, there is an error message
             print("\nThe username contains a space! Please try again.")
             continue
@@ -161,9 +161,9 @@ def current_user_pin(index, username):  # Function for checking if pin matches c
     pass_file_path = "password.txt"     # We are opening and reading from the password text file. 
     pass_path = open(pass_file_path, 'r')
     i = 0
-    for path in pass_path:              #read one word(str) at a time from the text file and removing the newline at the end
+    for path in pass_path:              # read one word(str) at a time from the text file and removing the newline at the end
         path = str(path.rstrip())
-        user.userpin.insert(i, path)    #saving the password into user class's userpin variable at the correct index (i)
+        user.userpin.insert(i, path)    # saving the password into user class's userpin variable at the correct index (i)
         i = i + 1       # keeping track of the total number of saved passwords
     pass_path.close()   # we close the file and take the users input
     temp_pin = input("Enter your pin:")
@@ -180,8 +180,8 @@ def current_user_pin(index, username):  # Function for checking if pin matches c
     if (user.count == 3):               # user gets 3 attempts before being locked out
         print("Too many attempts. Locking you out for 10 sec.")
         time.sleep(10)  # time that user gets locked out (in sec)
-        user.count = 0
-        main()  # if we reach max attempts, we go back to main menu
+        user.count = 0  # reset count for next user logging in
+        main()          # if we reach max attempts, we go back to main menu
     current_user_pin(index, username)  # call the pin function again until the user passes or fails 3 times
 
     
@@ -189,7 +189,7 @@ def main():                         # This is the main menu for our program.
     select = 0
     print("\n\n\nWELCOME!")
     while True:
-        print("\nMain Menu")        # Able to add new users, log in as a current user, and perform some functional tests. 
+        print("\nMain Menu")        # Able to add new users and log in as a current user
         print("[1]: New user\n[2]: Current user\n[3]: Exit")
         select = input("Please select from the options above: ")
         if (select == '1'):
