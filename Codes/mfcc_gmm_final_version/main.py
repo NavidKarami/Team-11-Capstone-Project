@@ -6,7 +6,7 @@ from array import *
 import string
 import numpy as np
 
-# used for FFT module (MFCC)
+# used for speaker recognition module
 import numpy
 import scipy.io.wavfile
 from scipy.fftpack import dct
@@ -17,7 +17,7 @@ import re
 from recording_currentuser import *
 #import all the functions from recording_newuser module
 from recording_newuser import *  
-#import all the functions from SpeakerIdentification module
+#import all the functions from Speaker recognition module
 from voice_authentication import *
 #import GPS module
 from GPS import *
@@ -60,7 +60,7 @@ class user:
     username = []
     userpin = []
 
-def newuser():                              # New user module where user creates their username.
+def newuser():                              # New user module where user creates their profile.
     print("\nWelcome New User!")
     user_file_path = "username.txt"         # load the username text file 
     user_path = open(user_file_path, 'r')
@@ -148,6 +148,7 @@ def currentuser():                  # This function is for current users.
             current_user_pin(index, user.username) # Pass index and username to pin function
 
     # If the name isn't in the array, ask the user to try again
+    #why do we have a function to lock the user out for inputting the username. they aren't trying to break in
     print("Invalid username. Try again.")
     user.trail = user.trail + 1 
     if (user.trail == 3):   # Keep track of the number of failed attempts
