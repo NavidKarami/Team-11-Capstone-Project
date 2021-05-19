@@ -12,43 +12,44 @@ def train_model(name):			# pass the username we are logging in as
     # We calculate the gmm of the features vector and store it in the trained models folder
     audio_num = 1
     source = "%s_"%name+str(audio_num)+".wav"   
-    dest = "trained_models/"			################# I THINK THIS NEEDS MORE COMMENTS############3
-    train_file = "training_set.txt"        
-    file_paths = open(train_file,'r')
+    dest = "trained_models/"			# save the location of the models into dest
+    train_file = "training_set.txt"        	# name of training audio files to be read
+    file_paths = open(train_file,'r')		# open the text file
     count = 1
     features = np.asarray(())	# convert the data into an array
-    for path in file_paths:    
-        path = path.strip()   
-        print(path)
+    for path in file_paths:    	# read all the audio files
+        path = path.strip()   	# get rid of .wav of audio file names
+        #print(path)
 
-        sr,audio = read(path)
-        print(sr)
-        vector = extract_features(audio,sr)
-	    						################# I THINK THIS NEEDS MORE COMMENTS############3
-        if features.size == 0:
-            features = vector
+        sr,audio = read(path)				# get the signal data and sample rate 
+        #print(sr)
+        vector = extract_features(audio,sr) 		# extract the audio file features with mfcc + delta approach
+	    						
+        if features.size == 0:				# check if there were any features collected or no
+            features = vector				# We are making sure not to duplicate data into our features array
         else:
-            features = np.vstack((features, vector))
+            features = np.vstack((features, vector))	# add all the 15 audio files features into one single array
 
-        if count == 15:    				################# I THINK THIS NEEDS MORE COMMENTS############3
-            gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)
-            gmm.fit(features)
+        if count == 15:    				# if all 15 audio files read and processed, start creating the model
+            gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)	#define your gaussian mixture model params
+            gmm.fit(features)										#draw the best fit line throught it
 	        
 	    # dumping the trained gaussian model
             picklefile = path.split("-")[0]+".gmm"
-            pickle.dump(gmm,open(dest + picklefile,'wb'))
-            print("Model created for user: %s" %name)   
-            features = np.asarray(())
-            count = 0
-        count = count + 1
+            pickle.dump(gmm,open(dest + picklefile,'wb'))						#open the destination
+            print("Model created for user: %s" %name)   						#save it in the destination folder
+            features = np.asarray(())									#reset features array values for the next run
+            count = 0											# reset count to 0
+        count = count + 1				# there are still more audio files to read, increment count and read the next one
+	
     # let's remove the contents of training_set.txt file and all the audio files
     f = open(train_file, "r+") 		# open file 
     f.seek(0) 				# absolute file positioning
     f.truncate()		    	# to erase all data 
-    f.close() 
+    f.close() 				# close the file
     k = 1
     file_paths.close()
-    for j in range(15):
+    for j in range(15):			# remove all the 15 audio files
         os.remove("%s_"%name+str(k)+".wav")
         k = k + 1
         
