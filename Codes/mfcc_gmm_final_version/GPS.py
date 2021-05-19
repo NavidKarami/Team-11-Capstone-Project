@@ -2,12 +2,12 @@
 import serial   
 
 def GPS():
-    g_flag = False
+    g_flag = False                          # set flag
     try:
         gps = serial.Serial('COM5', 9600)   # COM depends on your specific device, second value is baudrate
 
     except:
-        print('\nFailed to connect.')       # prints error if no device is connected
+        print('\nFailed to connect.')       # prints error if no device is connected, can use command below to see ports
         print('Try the following command in the prompt to see all available ports: \npython -m serial.tools.list_ports')
         return False
 
@@ -21,7 +21,7 @@ def GPS():
             y = float(data[3])
             
         # convert dddmm.mmmm to decimal degree format
-            x1 = (x/100) - ((x%100)/100)    # some simple match to convert the coordinates to the correct format we need
+            x1 = (x/100) - ((x%100)/100)    # some simple math to convert the coordinates to the correct format we need
             x2 = (x%100)/60
             lat = x1 + x2
             y1 = (y/100) - ((y%100)/100)
