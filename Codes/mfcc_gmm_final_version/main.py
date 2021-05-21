@@ -40,7 +40,7 @@ def voice_current(name, index):            # This is current user voice analysis
     # if the return value was false we allow user to try two more times before getting locked out for X# of seconds    
     else:
         attempt = 2
-        for a in range(attempt):
+        for a in range(attempt):        # users get 3 attempts 
             print("We did not recognize you as", name,". Try again.")
             record_audio_test()
             
@@ -63,7 +63,7 @@ class user:
 def newuser():                              # New user module where user creates their username.
     print("\nWelcome New User!")
     user_file_path = "username.txt"         # load the username text file 
-    user_path = open(user_file_path, 'r')
+    user_path = open(user_file_path, 'r')   # reading from the txt file
     i = 0
     for path in user_path:
         path = str(path.rstrip())
@@ -74,7 +74,7 @@ def newuser():                              # New user module where user creates
     while True:                 # we are now asking the user to create their username
         print("When entering your username, it can contain any character besides spaces.")
         name = input("Enter your username: ")
-        check = bool(re.search(r"\s", name))
+        check = bool(re.search(r"\s", name))        # sets flag as TRUE if user entered a space
 
         # Check the input string for spaces or if the username is already taken.
         if (check == True):     # if there's a space in the name, there is an error message
@@ -85,18 +85,18 @@ def newuser():                              # New user module where user creates
         else:
             break  
     # Stores the username in the system and writes/saves it in the text file
-    user_file_path = "username.txt" 
-    user_path = open(user_file_path, 'a')
+    user_file_path = "username.txt"         # loads txt file
+    user_path = open(user_file_path, 'a')   # appends the new username to the rest of the username text file
     user_path.write("\n%s" %name)
-    user.username.append(name)      # append the new username to the rest of the database
-    user_path.close()
+    user.username.append(name)  # append the new username to the rest of the database
+    user_path.close()           # closes the txt file
 
     # Ask the user to create their four digit pin code.
     # If something other than 4 numbers are entered, error message will appear.
     print("\nCreate your pin. It may only be 4 digits.")
     while True: 
         pinnum = (input("Please enter your four-digit pincode: "))
-        length = len(pinnum)
+        length = len(pinnum)        # set length of the pincode
         if (pinnum.isdigit() == False) and (length != 4):   #checks if both rules are violated
             print("\nInvalid pincode, the length is not four and needs to be digits only.")
         elif pinnum.isdigit() == False:                     # checks for numbers
@@ -116,25 +116,25 @@ def newuser():                              # New user module where user creates
     print(name, "is now a registered user.")
     
     # Store the pincode in the system and writes/saves it into the text file
-    pass_file_path = "password.txt"
-    pass_path = open(pass_file_path, 'a')
+    pass_file_path = "password.txt"         # load text file
+    pass_path = open(pass_file_path, 'a')   #append the file with new pincode 
     pass_path.write("\n%s" %pinnum)
     user.userpin.append(pinnum)     # append the pin to the rest of the database
-    pass_path.close()
+    pass_path.close()               # closes text file
    
     # we go to voice recording module now to create database for new user
-    # new user now needs to record 15 audio files for training purposes
+    # new user now needs to record 15 audio files for their model
     record_audio_train(name)
     # now that we recorded the 15 audio files, we train and create our model
     train_model(name)
 
 def currentuser():                  # This function is for current users.
     user_file_path = "username.txt" # We are reading from the username text file which has all registered users. 
-    user_path = open(user_file_path, 'r')
+    user_path = open(user_file_path, 'r')   # reading from text file
     i = 0   
     for path in user_path:
-        path = str(path.rstrip())
-        user.username.insert(i, path)
+        path = str(path.rstrip())       # same steps as above in new user function
+        user.username.insert(i, path)   # creating the database array user.username
         i = i + 1
     user_path.close()       # closing the username text file
     length_name = len(user.username)  # Keeping track of the number of registered users
@@ -142,8 +142,8 @@ def currentuser():                  # This function is for current users.
 
     # Loop until you find the name in the database
     for k in range(0, length_name):
-        if(temp_name == user.username[k]):
-            user.trail = 0
+        if(temp_name == user.username[k]):  # if there's a match, we proceed to current user pin function
+            user.trail = 0  # just a counter
             index = k       # Set the index so we know which element in the pin array we need to check
             current_user_pin(index, user.username) # Pass index and username to pin function
 
