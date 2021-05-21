@@ -19,10 +19,8 @@ def train_model(name):			# pass the username we are logging in as
     features = np.asarray(())	# convert the data into an array
     for path in file_paths:    	# read all the audio files
         path = path.strip()   	# get rid of .wav of audio file names
-        #print(path)
 
         sr,audio = read(path)				# get the signal data and sample rate 
-        #print(sr)
         vector = extract_features(audio,sr) 		# extract the audio file features with mfcc + delta approach
 	    						
         if features.size == 0:				# check if there were any features collected or no
@@ -31,15 +29,15 @@ def train_model(name):			# pass the username we are logging in as
             features = np.vstack((features, vector))	# add all the 15 audio files features into one single array
 
         if count == 15:    				# if all 15 audio files read and processed, start creating the model
-            gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)	#define your gaussian mixture model params
-            gmm.fit(features)										#draw the best fit line throught it
+            gmm = GaussianMixture(n_components = 6, max_iter = 200, covariance_type='diag',n_init = 3)	# define your gaussian mixture model params
+            gmm.fit(features)										# draw the best fit line throught it
 	        
 	    # dumping the trained gaussian model
             picklefile = path.split("-")[0]+".gmm"
-            pickle.dump(gmm,open(dest + picklefile,'wb'))						#open the destination
-            print("Model created for user: %s" %name)   						#save it in the destination folder
-            features = np.asarray(())									#reset features array values for the next run
-            count = 0											# reset count to 0
+            pickle.dump(gmm,open(dest + picklefile,'wb'))	# open the destination
+            print("Model created for user: %s" %name)   	# save it in the destination folder
+            features = np.asarray(())				# reset features array values for the next run
+            count = 0					# reset count to 0
         count = count + 1				# there are still more audio files to read, increment count and read the next one
 	
     # let's remove the contents of training_set.txt file and all the audio files
@@ -53,7 +51,7 @@ def train_model(name):			# pass the username we are logging in as
         os.remove("%s_"%name+str(k)+".wav")
         k = k + 1
         
-# Countdown function starts here
+# Countdown function starts here, previously defined in other module
 def stopwatch(sec):                 
     while sec:
         minn, secc = divmod(sec, 60)
@@ -63,8 +61,8 @@ def stopwatch(sec):
         sec -= 1
         
 def record_audio_train(name):		# pass username to our function which is for recording 15 audio files
-    training = "training_set.txt"
-    file = open(training, 'a')
+    training = "training_set.txt"	# load the training set text file
+    file = open(training, 'a')		
     j = 0
     count = 1
     print("You will recored 15 audio files back to back for training purposes.")
