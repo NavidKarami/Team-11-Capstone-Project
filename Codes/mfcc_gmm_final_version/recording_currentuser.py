@@ -14,12 +14,12 @@ def stopwatch(sec):     		# Countdown function starts here, we pass a value to i
 def record_audio_test():		# this function is used to start recording our audio file
     FORMAT = pyaudio.paInt16		# 16-bit integer 
     CHANNELS = 1			# 1 is for mono, change to 2 if you want stereo
-    RATE = 44100			# 44100 samples per second. Standard value for when performing audio recording for human 
+    RATE = 44100			# 44100 samples per second. Standard sampling rate for recording audio from humans
     CHUNK = 512				# number of frames the signals are split into
     RECORD_SECONDS = 3			# Record 3 seconds			
     audio = pyaudio.PyAudio()		# create a variable audio to set the PyAudio class variables prior to recording 
     
-    print("Please say the phrase into the microphone after a short delay with normal tone and speed")
+    print("Please say the phrase into the microphone after a short delay")
     stopwatch(2)			# call the stopwatch right before recording
     print ("Recording started")
     # set the PyAudio class variables 					
