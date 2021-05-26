@@ -66,7 +66,8 @@ def record_audio_train(name):		# pass username to our function which is for reco
     j = 0
     count = 1
     print("You will recored 15 audio files back to back for training purposes.")
-    print("Please say 'this is (name)' into the microphone after a short delay with normal tone and speed")
+    #print("Please say 'this is (name)' into the microphone after a short delay with normal tone and speed")
+    print("Please say the phrase 'this is (your name)' into the microphone after a 2 second delay")
     for j in range(15):    
         FORMAT = pyaudio.paInt16	# see recording_currentuser for comments on this (same process/variables)
         CHANNELS = 1
