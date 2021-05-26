@@ -19,7 +19,7 @@ def record_audio_test():		# this function is used to start recording our audio f
     RECORD_SECONDS = 3			# Record 3 seconds			
     audio = pyaudio.PyAudio()		# create a variable audio to set the PyAudio class variables prior to recording 
     
-    print("Please say the phrase into the microphone after a short delay")
+    print("Please say the phrase into the microphone after a 2 second delay")
     stopwatch(2)			# call the stopwatch right before recording
     print ("Recording started")
     # set the PyAudio class variables 					
