@@ -23,8 +23,8 @@ from voice_authentication import *
 from GPS import *
 
 def voice_current(name, index):            # This is current user voice analysis module.
-    print("\nWhen you are ready to record, press 'r' and hit 'enter' on your keyboard.")
-    print("There is a slight delay after your keyboard input. You will be prompted when to speak.")
+    print("\nWhen you are ready to record, press 'r' and hit 'enter' on your keyboard. Note, you have 3 seconds to say your phrase")
+    print("There is a 2 second delay after your keyboard input. You will be prompted when to speak.")
     print("The phrase you need to say is: This is (your name)")
     u_input = str("k")
     while (u_input != "r"):         # we wait for the user to press "r" and hit "enter"
