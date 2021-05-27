@@ -72,7 +72,8 @@ def test_model(name):				# we are passing the username to this function
 	
 	name_compare = "trained_models/%s_15.wav" %name
 	winner = np.argmax(log_likelihood)
-	if str(speakers[winner]) == str(name_compare):	# if the user matches the gmm files of the user you're trying to enter as then you proceed			
+	s = log_likelihood[winner]					# to ensure that silence does not pass
+	if str(speakers[winner]) == str(name_compare) and s >= -18:	# if the user matches the gmm files of the user you're trying to enter as then you proceed			
 			print("Voice authentication complete for %s" %name)
 			flag = True		# set flag to true
 			os.remove("sample.wav")	# deleting the fresh audio file
