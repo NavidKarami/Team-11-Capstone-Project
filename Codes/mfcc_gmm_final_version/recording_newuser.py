@@ -78,7 +78,7 @@ def record_audio_train(name):		# pass username to our function which is for reco
         audio = pyaudio.PyAudio()
 
         stopwatch(2)
-        print ("Recording started" + "Audio file #"+str(count))
+        print ("Recording started" + " Audio file #"+str(count))
         stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, output = True, frames_per_buffer=CHUNK)
         Recordframes = []
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
